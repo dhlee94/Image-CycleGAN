@@ -53,7 +53,11 @@ class AverageMeter(object):
     def average(self):
         return self.avg
 
-
+def save_checkpoint(state, is_best, path, filename='checkpoint.pth.tar'):
+    torch.save(state, os.path.join(path, filename))
+    if is_best:
+        shutil.copyfile(os.path.join(path, filename), os.path.join(path, 'model_best.pth.tar'))
+        
 def calculate_psnr(img1, img2, crop_border, input_order='HWC', test_y_channel=False):
     """Calculate PSNR (Peak Signal-to-Noise Ratio).
     Ref: https://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio
